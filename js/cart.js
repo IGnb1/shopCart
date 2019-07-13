@@ -152,4 +152,36 @@ $(() => {
     total();
     $(this).parents('.item').find('.computed').text(obj.price * obj.number);
   })
+  //点击删除
+  $('.item').on('click','.item-del',function(){
+    let _this = this;
+    //弹出确认框
+    $( "#dialog-confirm" ).dialog({
+      resizable: false,
+      height:140,
+      modal: true,
+      buttons: {
+        "确认": function() {
+          $( this ).dialog( "close" );
+          //点击确认后删除该商品
+          $(_this).parents('.item').remove();
+          //获取该商品的id
+          let id = $(_this).parents('.item').attr('data-id');
+          //遍历本地数据进行筛选出对应的索引
+          let index = arr.findIndex(e=>{
+            return e.pID == id;
+          })
+          // console.log(arr);
+          //根据获得的索引从本地数据数组里删除
+          arr.splice(index,1);
+          //删除后本地数据进行覆盖
+          let jsonStr = JSON.stringify(arr);
+          localStorage.setItem('shopCartData',jsonStr);
+        },
+        '取消': function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+  })
 })
