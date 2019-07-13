@@ -105,7 +105,7 @@ $(() => {
     oldNum++;
     //把加完后的新值添加到页面上
     $(this).siblings('.number').val(oldNum);
-    $('.computed').text(oldNum * $('.price').text());
+    // $('.computed').text(oldNum * $('.price').text());
     $('.reduce').removeClass('disabled');
     //获取当前点击的元素的data-id值
     let id = parseInt($(this).parents('.item').attr('data-id'));
@@ -119,10 +119,10 @@ $(() => {
     jsonStr = JSON.stringify(arr);
     localStorage.setItem('shopCartData', jsonStr);
     total();
-    // $('.computed').text(obj.number * obj.price);
+    $(this).parents('.item').find('.computed').text(obj.price * obj.number);
   })
   //减少商品数量
-  $('.reduce').on('click', function () {
+  $('.item').on('click','.reduce', function () {
     //获取点击前的旧数量
     let oldNum = parseInt($(this).siblings('.number').val());
     //判断商品数量最低为1
@@ -137,7 +137,7 @@ $(() => {
     }
     //把加完后的新值添加到页面上
     $(this).siblings('.number').val(oldNum);
-    $('.computed').text(oldNum * $('.price').text())
+    // $('.computed').text(oldNum * $('.price').text())
     //获取当前点击的元素的data-id值
     let id = parseInt($(this).parents('.item').attr('data-id'));
     //把和本都数据里的id相等的对象筛选出来
@@ -150,5 +150,6 @@ $(() => {
     jsonStr = JSON.stringify(arr);
     localStorage.setItem('shopCartData', jsonStr);
     total();
+    $(this).parents('.item').find('.computed').text(obj.price * obj.number);
   })
 })
