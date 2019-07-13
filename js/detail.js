@@ -11,7 +11,7 @@ $(() => {
     $('.sku-name').text(obj.name);
     $('.dd > em').text(obj.price);
     $('.preview-img > img').attr('src', obj.imgSrc);
-    $('.big>img').attr('src',obj.imgSrc);
+    $('.big>img').attr('src', obj.imgSrc);
 
     //获取添加减少按钮
     let add = $('.add');
@@ -43,7 +43,50 @@ $(() => {
         }
         $('.choose-number').attr('value', old);
     })
+
+    //加入购物车功能
+    $('.addshopcar').on('click', function () {
+        //先获取本地数据，如果没有数据，返回一个空数组
+        let jsonStr = localStorage.getItem('shopCartData');
+        let arr;
+        //判断，如果jsonStr为null，返回一个空数组
+        if (jsonStr == null) {
+            arr = []
+        } else {
+            arr = JSON.parse(jsonStr);
+        }
+
+        //获取商品的数量
+        let number = parseInt($('.choose-number').val());
+        //如果有两个相同的商品，只是增加数量，而不是重新生成一个商品对象
+        //jq对象.find()如果没有匹配的对象，返回undefined
+        let isExit = arr.find(e => {
+            return e.pID == id;
+        })
+        console.log(isExit)
+        //判断，如果有相同id的对象，让他们相加
+        if (isExit !== undefined) {
+            isExit.number += number;
+        } else {
+            //创建一个保存商品信息的对象
+            let good = {
+                imgSrc: obj.imgSrc,
+                name: obj.name,
+                price: obj.price,
+                pID: obj.pID,
+                number: number
+            }
+            //将对象插入数组
+            arr.push(good);
+        }
+        jsonStr = JSON.stringify(arr);
+        localStorage.setItem('shopCartData', jsonStr);
+        // location.href = 'cart.html';
+    })
 })
+
+
+
 //放大镜
 $(() => {
     //鼠标移入显示
