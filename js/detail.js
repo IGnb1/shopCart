@@ -81,7 +81,7 @@ $(() => {
         }
         jsonStr = JSON.stringify(arr);
         localStorage.setItem('shopCartData', jsonStr);
-        // location.href = 'cart.html';
+        location.href = 'cart.html';
     })
 })
 
